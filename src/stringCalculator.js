@@ -15,8 +15,15 @@ function add(numbers) {
         splitter = new RegExp(escapeRegExp(delim));
     }
 
-    const parts = nums.split(splitter);
-    return parts.reduce((sum, n) => sum + Number(n), 0);
+    const parts = nums.split(splitter).map(p => p.trim()).filter(p => p !== '');
+    const ints = parts.map(p => Number(p));
+
+    const negatives = ints.filter(n => n < 0);
+    if (negatives.length) {
+        return `negative numbers not allowed ${negatives.join(',')}`;
+    }
+
+    return ints.reduce((s, n) => s + n, 0);
 }
 
 module.exports = { add };
